@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Колесо для Кати</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎡</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;900&family=Pangolin&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pink:#ff2e93; --hot:#ff0f7b; --soft:#ffc2e0; --mid:#ff7ac0;
+  --black:#0d0509; --plum:#2a0f1f; --white:#fff5fa;
+}
+*{box-sizing:border-box;margin:0}
+html,body{min-height:100%}
+body{
+  background:var(--black);
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(255,46,147,.35), transparent 40%),
+    radial-gradient(circle at 85% 90%, rgba(255,46,147,.3), transparent 45%),
+    repeating-linear-gradient(45deg, rgba(255,46,147,.07) 0 14px, transparent 14px 28px);
+  color:var(--white);
+  font-family:'Unbounded','Arial Black',sans-serif;
+  overflow-x:hidden;
+  text-align:center;
+}
+/* бегущая строка */
+.marquee{background:var(--pink);color:var(--black);font-weight:900;font-size:14px;white-space:nowrap;overflow:hidden;border-bottom:4px solid var(--black);box-shadow:0 4px 0 var(--soft)}
+.marquee div{display:inline-block;padding:10px 0;animation:run 22s linear infinite}
+.marquee.bottom{border-top:4px solid var(--black);border-bottom:0;box-shadow:0 -4px 0 var(--soft)}
+.marquee.bottom div{animation-direction:reverse}
+@keyframes run{to{transform:translateX(-50%)}}
+
+main{position:relative;padding:36px 16px 48px;max-width:760px;margin:0 auto}
+h1{
+  font-weight:900;line-height:1.1;font-size:clamp(26px,6vw,46px);
+  text-transform:uppercase;letter-spacing:-.5px;
+  color:var(--pink);
+  text-shadow:3px 3px 0 var(--black),5px 5px 0 var(--soft);
+  -webkit-text-stroke:1px var(--black);
+  transform:rotate(-2deg);
+  margin-bottom:10px;
+}
+.sub{font-family:'Pangolin',cursive;font-size:clamp(18px,3.5vw,26px);color:var(--soft);margin-bottom:26px}
+
+/* колесо */
+.stage{position:relative;width:min(92vw,520px);aspect-ratio:1;margin:0 auto 28px}
+.ring{
+  position:absolute;inset:-14px;border-radius:50%;
+  background:conic-gradient(var(--pink),var(--black),var(--pink),var(--black),var(--pink),var(--black),var(--pink),var(--black),var(--pink));
+  animation:spin 14s linear infinite;
+  box-shadow:0 0 50px rgba(255,46,147,.7);
+}
+.ring::after{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--black)}
+@keyframes spin{to{transform:rotate(360deg)}}
+#wheel{position:absolute;inset:0;width:100%;height:100%;border-radius:50%;
+  transition:transform 6s cubic-bezier(.12,.62,.08,1)}
+.hub{
+  position:absolute;left:50%;top:50%;width:21%;aspect-ratio:1;transform:translate(-50%,-50%);
+  border-radius:50%;background:var(--black);border:5px solid var(--pink);
+  display:grid;place-items:center;z-index:3;box-shadow:0 0 0 5px var(--black),0 0 25px var(--pink)
+}
+.hub svg{width:55%;height:55%;animation:beat 1.1s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.25)}}
+.pointer{position:absolute;left:50%;top:-30px;width:56px;transform:translateX(-50%);z-index:4;filter:drop-shadow(0 4px 0 var(--black))}
+.pointer.tick{animation:tick .12s}
+@keyframes tick{50%{transform:translateX(-50%) rotate(-14deg)}}
+
+button.go{
+  font-family:inherit;font-weight:900;font-size:clamp(18px,4vw,24px);text-transform:uppercase;
+  padding:18px 40px;border:4px solid var(--black);border-radius:60px;cursor:pointer;
+  background:var(--pink);color:var(--black);
+  box-shadow:0 7px 0 var(--black),0 0 0 4px var(--soft),0 12px 30px rgba(255,46,147,.6);
+  transition:transform .1s, box-shadow .1s;
+}
+button.go:hover:not(:disabled){transform:translateY(-2px) rotate(-1deg)}
+button.go:active:not(:disabled){transform:translateY(5px);box-shadow:0 2px 0 var(--black),0 0 0 4px var(--soft)}
+button.go:disabled{background:var(--plum);color:var(--mid);cursor:wait}
+button.go:focus-visible{outline:4px solid var(--white);outline-offset:6px}
+
+/* декор */
+.deco{position:fixed;pointer-events:none;z-index:0;opacity:.9}
+.deco svg{display:block;width:100%;height:100%}
+.d1{width:90px;height:90px;left:3%;top:20%;animation:float 5s ease-in-out infinite}
+.d2{width:60px;height:60px;right:5%;top:16%;animation:float 6s ease-in-out -2s infinite}
+.d3{width:110px;height:110px;right:3%;bottom:14%;animation:float 7s ease-in-out -1s infinite}
+.d4{width:70px;height:70px;left:6%;bottom:12%;animation:float 4.5s ease-in-out -3s infinite}
+.d5{width:44px;height:44px;left:12%;top:55%;animation:float 5.5s ease-in-out -.5s infinite}
+@keyframes float{50%{transform:translateY(-22px) rotate(14deg)}}
+@media (max-width:700px){.d1,.d3{opacity:.35}}
+
+/* результат */
+.modal{position:fixed;inset:0;display:none;place-items:center;background:rgba(13,5,9,.85);z-index:20;padding:20px}
+.modal.show{display:grid}
+.card{
+  position:relative;background:var(--pink);color:var(--black);border:6px solid var(--black);
+  border-radius:28px;padding:34px 26px 28px;max-width:440px;width:100%;
+  box-shadow:12px 12px 0 var(--soft),0 0 60px var(--pink);
+  animation:pop .5s cubic-bezier(.2,1.6,.4,1);
+}
+@keyframes pop{from{transform:scale(.3) rotate(-12deg);opacity:0}}
+.card small{font-family:'Pangolin',cursive;font-size:22px;display:block}
+.card h2{font-size:clamp(28px,8vw,44px);font-weight:900;text-transform:uppercase;line-height:1.05;margin:10px 0 22px;color:var(--black);text-shadow:3px 3px 0 var(--soft)}
+.card button.go{background:var(--black);color:var(--pink);font-size:16px;padding:14px 28px;box-shadow:0 5px 0 var(--soft)}
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:30}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}#wheel{transition-duration:.01s}}
+</style>
+</head>
+<body>
+
+<div class="marquee"><div id="m1"></div></div>
+
+<!-- декоративная графика -->
+<div class="deco d1"><svg viewBox="0 0 100 100"><path d="M50 88 10 46C-2 30 8 8 28 8c10 0 18 6 22 14 4-8 12-14 22-14 20 0 30 22 18 38z" fill="#ff2e93" stroke="#0d0509" stroke-width="5"/></svg></div>
+<div class="deco d2"><svg viewBox="0 0 100 100"><path d="M50 4l13 31 33 3-25 22 8 33-29-18-29 18 8-33L4 38l33-3z" fill="#ffc2e0" stroke="#0d0509" stroke-width="5"/></svg></div>
+<div class="deco d3"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="none" stroke="#ff2e93" stroke-width="10" stroke-dasharray="14 10"/><circle cx="50" cy="50" r="20" fill="#ff2e93"/></svg></div>
+<div class="deco d4"><svg viewBox="0 0 100 100"><path d="M50 4 62 38 96 50 62 62 50 96 38 62 4 50 38 38z" fill="#ff7ac0" stroke="#0d0509" stroke-width="5"/></svg></div>
+<div class="deco d5"><svg viewBox="0 0 100 100"><path d="M50 88 10 46C-2 30 8 8 28 8c10 0 18 6 22 14 4-8 12-14 22-14 20 0 30 22 18 38z" fill="#fff5fa" stroke="#ff2e93" stroke-width="8"/></svg></div>
+
+<main>
+  <h1>Катя, крути колесо и посмотри, что тебе выпадет</h1>
+  <p class="sub">Один шанс, пять призов, никаких возвратов ✨</p>
+
+  <div class="stage">
+    <div class="ring"></div>
+    <svg class="pointer" id="pointer" viewBox="0 0 60 80"><path d="M30 78 4 22C-4 6 12 -2 30 2c18-4 34 4 26 20z" fill="#fff5fa" stroke="#0d0509" stroke-width="5" stroke-linejoin="round"/><circle cx="30" cy="22" r="8" fill="#ff2e93" stroke="#0d0509" stroke-width="4"/></svg>
+    <canvas id="wheel" width="1040" height="1040"></canvas>
+    <div class="hub"><svg viewBox="0 0 100 100"><path d="M50 88 10 46C-2 30 8 8 28 8c10 0 18 6 22 14 4-8 12-14 22-14 20 0 30 22 18 38z" fill="#ff2e93"/></svg></div>
+  </div>
+
+  <button class="go" id="spin">Крутить!</button>
+</main>
+
+<div class="marquee bottom"><div id="m2"></div></div>
+
+<div class="modal" id="modal" role="dialog" aria-live="polite">
+  <div class="card">
+    <small>Тебе выпало:</small>
+    <h2 id="prize"></h2>
+    <button class="go" id="again">Ещё раз!</button>
+  </div>
+</div>
+<canvas id="confetti"></canvas>
+
+<script>
+const PRIZES = [
+  {t:'Малолетка',        bg:'#ff2e93', fg:'#0d0509'},
+  {t:'Две малолетки',    bg:'#0d0509', fg:'#ff7ac0'},
+  {t:'Липтон',           bg:'#ffc2e0', fg:'#0d0509'},
+  {t:'Кислый мармелад',  bg:'#2a0f1f', fg:'#ffc2e0'},
+  {t:'Пиздюли',          bg:'#ff0f7b', fg:'#fff5fa'}
+];
+const N = PRIZES.length, SEG = 360 / N;
+
+// бегущие строки
+const line = '💖 КАТЯ, КРУТИ КОЛЕСО &nbsp;★&nbsp; ВЕЗЕНИЕ ВКЛЮЧЕНО &nbsp;💖&nbsp; ';
+document.getElementById('m1').innerHTML = line.repeat(16);
+document.getElementById('m2').innerHTML = line.repeat(16);
+
+// рисуем колесо
+const cv = document.getElementById('wheel'), ctx = cv.getContext('2d');
+const S = cv.width, C = S / 2, R = C - 12;
+function drawWheel(){
+  ctx.clearRect(0,0,S,S);
+  for(let i=0;i<N;i++){
+    const a0 = (-90 + i*SEG) * Math.PI/180, a1 = (-90 + (i+1)*SEG) * Math.PI/180;
+    ctx.beginPath(); ctx.moveTo(C,C); ctx.arc(C,C,R,a0,a1); ctx.closePath();
+    ctx.fillStyle = PRIZES[i].bg; ctx.fill();
+    ctx.lineWidth = 8; ctx.strokeStyle = '#0d0509'; ctx.stroke();
+
+    // узор из точек у края
+    ctx.fillStyle = PRIZES[i].fg; ctx.globalAlpha = .55;
+    for(let k=1;k<6;k++){
+      const a = a0 + (a1-a0)*k/6;
+      ctx.beginPath(); ctx.arc(C+Math.cos(a)*(R-26), C+Math.sin(a)*(R-26), 6, 0, 7); ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+
+    // текст
+    ctx.save();
+    ctx.translate(C,C);
+    ctx.rotate((a0+a1)/2);
+    ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+    ctx.fillStyle = PRIZES[i].fg;
+    let size = 64;
+    ctx.font = `900 ${size}px Unbounded, Arial Black, sans-serif`;
+    const maxW = R*0.62;
+    while(ctx.measureText(PRIZES[i].t.toUpperCase()).width > maxW && size > 26){
+      size -= 2; ctx.font = `900 ${size}px Unbounded, Arial Black, sans-serif`;
+    }
+    ctx.fillText(PRIZES[i].t.toUpperCase(), R-60, 0);
+    ctx.restore();
+  }
+  // внутреннее кольцо
+  ctx.beginPath(); ctx.arc(C,C,R,0,7); ctx.lineWidth = 14; ctx.strokeStyle = '#0d0509'; ctx.stroke();
+}
+drawWheel();
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(drawWheel);
+
+// вращение
+let rotation = 0, busy = false;
+const btn = document.getElementById('spin'), pointer = document.getElementById('pointer');
+btn.addEventListener('click', () => {
+  if (busy) return;
+  busy = true; btn.disabled = true; btn.textContent = 'Крутится…';
+  const win = Math.floor(Math.random() * N);                // случайный приз
+  const jitter = (Math.random() - .5) * SEG * .7;            // случайная точка внутри сектора
+  const wanted = ((-(win + .5) * SEG + jitter) % 360 + 360) % 360;
+  const cur = ((rotation % 360) + 360) % 360;
+  rotation += 360 * (6 + Math.floor(Math.random()*3)) + ((wanted - cur + 360) % 360);
+  cv.style.transform = `rotate(${rotation}deg)`;
+
+  // щелчки указателя
+  let last = -1;
+  const timer = setInterval(() => {
+    const m = getComputedStyle(cv).transform;
+    if (m === 'none') return;
+    const v = m.match(/matrix\(([^)]+)\)/)[1].split(',').map(Number);
+    const ang = (Math.atan2(v[1], v[0]) * 180/Math.PI + 360) % 360;
+    const idx = Math.floor(ang / SEG);
+    if (idx !== last){ last = idx; pointer.classList.remove('tick'); void pointer.offsetWidth; pointer.classList.add('tick'); }
+  }, 40);
+
+  setTimeout(() => {
+    clearInterval(timer);
+    document.getElementById('prize').textContent = PRIZES[win].t;
+    document.getElementById('modal').classList.add('show');
+    confetti();
+  }, 6200);
+});
+document.getElementById('again').addEventListener('click', () => {
+  document.getElementById('modal').classList.remove('show');
+  busy = false; btn.disabled = false; btn.textContent = 'Крутить!';
+});
+
+// конфетти
+function confetti(){
+  const c = document.getElementById('confetti'), x = c.getContext('2d');
+  c.width = innerWidth; c.height = innerHeight;
+  const cols = ['#ff2e93','#ffc2e0','#fff5fa','#ff7ac0','#0d0509'];
+  const ps = Array.from({length:160}, () => ({
+    x: c.width/2, y: c.height/2, vx:(Math.random()-.5)*20, vy:Math.random()*-18-4,
+    s:6+Math.random()*8, r:Math.random()*6, vr:(Math.random()-.5)*.4, col:cols[Math.floor(Math.random()*cols.length)], heart:Math.random()<.3
+  }));
+  let f = 0;
+  (function step(){
+    x.clearRect(0,0,c.width,c.height);
+    ps.forEach(p => {
+      p.x += p.vx; p.y += p.vy; p.vy += .45; p.r += p.vr;
+      x.save(); x.translate(p.x,p.y); x.rotate(p.r); x.fillStyle = p.col;
+      if (p.heart){ x.font = p.s*2+'px serif'; x.fillText('💖',0,0); } else x.fillRect(-p.s/2,-p.s/2,p.s,p.s*.6);
+      x.restore();
+    });
+    if (++f < 200) requestAnimationFrame(step); else x.clearRect(0,0,c.width,c.height);
+  })();
+}
+</script>
+</body>
+</html>
